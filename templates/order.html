@@ -1,0 +1,104 @@
+{% extends 'base_main.html' %}
+
+{% block title %}
+    确认订单
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+			p,h2,p input{
+				text-align: center;
+			}
+			p input{
+				font-size: 22px;
+				background: honeydew;
+				border-radius: 5px;
+			}
+			select{
+				font-size: 20px;
+				background: honeydew;
+			}
+			p{
+				font-size: 20px;
+			}
+			#order{
+				width: 120px;
+				height: 50px;
+				font-size: 20px;
+				font-family: '宋体', sans-serif;
+				background: red;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				float: left;
+                margin-left: 10px;
+			}
+			#close{
+				width: 120px;
+				height: 50px;
+				font-size: 20px;
+				font-family: '宋体', sans-serif;
+				background: gray;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				float: left;
+				margin-left: 60%;
+			}
+		</style>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+		<div style="margin-top: 3%;">
+            <!--如果没有查找到航班信息-->
+            <div class="alert" id="search_failure"
+                 style="text-align: center;margin-top: 20px; background-color:white;display: {{ error }}">
+                {% if error2 %}
+                    <h1>尊敬的旅客</h1>
+                    <p style="margin-left: 50px">
+                        {{ error2 }}
+                    <button type="button" style="background: white;border: none;color: red;" onclick="window.history.go(-1)">返回上一层页面</button>
+                    </p>
+                {% else %}
+                    <h1>尊敬的旅客</h1>
+                    <p style="margin-left: 50px">
+                        你还没有登录，不能进行订票哦！请先<a style="color: red" href="{% url 'web:login' %}">去登录</a>
+                    </p>
+                    <button type="button" style="background: white;border: none;color: red;font-size: 18px" onclick="window.history.go(-1)">返回上一层页面</button>
+                {% endif %}
+
+            </div>
+
+			<form action="" method="post" style="display: {{ success }}">
+                {% csrf_token %}
+				<h2 style="margin-left: 80px">确认订票信息</h2>
+                <br>
+				<p>乘客姓名：<input type="text" name="p_name" value="{{ user.real_name }}" readonly="readonly"/></p>
+                <br>
+                <p>身份证号：<input type="text" name="p_id" value="{{ user.card_id }}" readonly="readonly"/></p>
+                <br>
+				<p>乘坐飞机：<input type="text" name="p_flight" value="{{ line.flight }}" readonly="readonly"/></p>
+                <br>
+				<p>出发时间：<input type="text" name="p_time" value="{{ line.leave_date }} {{ line.leave_time|date:'H:i' }}" readonly="readonly"/></p>
+				<br>
+                <p>出发机场：<input type="text" name="p_start" value="{{ line.start_airport }}" readonly="readonly" /></p>
+				<br>
+                <p>到达机场：<input type="text" name="p_arrive" value="{{ line.arrive_airport }}" readonly="readonly"/></p>
+				<br>
+                <p>选择机舱：
+					<select name="cabin">
+						<option value="2">商务舱 ￥{{ line.business_price }}</option>
+						<option value="1">经济舱 ￥{{ line.tourist_price }}</option>
+					</select>
+				</p>
+                <br>
+                <button type="button" id='close' onclick="window.history.go(-1)">取消订票</button>
+				<input type="submit" id='order'  value="立即订票" onclick="alert('订票成功')" />
+			</form>
+
+		</div>
+
+{% endblock %}

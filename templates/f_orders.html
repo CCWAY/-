@@ -1,0 +1,73 @@
+{% extends 'base_main.html' %}
+
+{% block title %}
+    历史订单
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div class="flight" style="position: relative; width: 100%;margin-top: 40px;">
+            <table class="table">
+            <thead>
+                <tr>
+                    <th style="text-align: center;font-size: 18px">航班名</th>
+                    <th style="text-align: center;font-size: 18px">出发日期</th>
+                    <th style="text-align: center;font-size: 18px">出发机场</th>
+                    <th style="text-align: center;font-size: 18px">到达机场</th>
+                    <th style="text-align: center;font-size: 18px">出发时间</th>
+                    <th style="text-align: center;font-size: 18px">到达时间</th>
+                    <th style="text-align: center;font-size: 18px">退票时间</th>
+                    <th style="text-align: center;font-size: 18px">舱位类型</th>
+                    <th style="text-align: center;font-size: 18px">价格</th>
+                    <th style="text-align: center;font-size: 18px">状态</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                {% if order.is_back == 0 %}
+                     <tr class="active">
+                            <td style="vertical-align: middle;text-align: center;font-size: 18px">{{ order.flight_line.flight }}</td>
+                            <td style="vertical-align: middle;text-align: center;font-size: 18px">{{ order.flight_line.leave_date }}</td>
+                            <td style="vertical-align: middle;text-align: center;font-size: 18px">{{ order.flight_line.start_airport }}</td>
+                            <td style="vertical-align: middle;text-align: center;font-size: 18px">{{ order.flight_line.arrive_airport }}</td>
+                            <td style="vertical-align: middle;text-align: center;font-size: 18px">{{ order.flight_line.leave_time|date:'H:i' }}</td>
+                            <td style="vertical-align: middle;text-align: center;font-size: 18px">{{ order.flight_line.arrive_time|date:'H:i' }}</td>
+                            <td style="vertical-align: middle;text-align: center;font-size: 18px">{{ order.create_time }}</td>
+                            {% if order.cabin == 1 %}
+                                <td style="vertical-align: middle;text-align: center;font-size: 18px">经济舱</td>
+                            {% else %}
+                                <td style="vertical-align: middle;text-align: center;font-size: 18px">商务舱</td>
+                            {% endif %}
+
+                            {% if order.cabin == 1 %}
+                                <td style="color: red;vertical-align: middle;text-align: center;font-size: 18px">{{ order.flight_line.tourist_price }}</td>
+                            {% else %}
+                                <td style="color: red;vertical-align: middle;text-align: center;font-size: 18px">{{ order.flight_line.business_price }}</td>
+                            {% endif %}
+
+                            <td style="vertical-align: middle;text-align: center;font-size: 18px;color: red">已失效</td>
+                            <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <!--如果没有查找到订单信息-->
+            <div class="alert" id="search_failure"
+                 style="text-align: center;margin-top: 20px; background-color:white;display: {{ error }}">
+                <h1>尊敬的旅客</h1>
+                <p style="margin-left: 30px">
+                    没有查询到你有可用的订单信息，请你先去订票！
+                </p>
+            </div>
+    </div>
+
+
+
+{% endblock %}

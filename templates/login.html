@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>用户登录</title>
+  <link rel="stylesheet" media="screen" href="/static/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/reset.css"/>
+</head>
+<body>
+
+<div id="particles-js">
+    <form action="" method="post">
+        {% csrf_token %}
+		<div class="login">
+			<div class="login-top">
+				<p style="margin-left: 20%">登录 | <a href="http://127.0.0.1:8000/xadmin">后台登陆</a></p>
+			</div>
+            {{ error }}
+			<div class="login-center clearfix">
+				<div class="login-center-img"><img src="/static/img/name.png"/></div>
+				<div class="login-center-input">
+					<input type="text" name="username" placeholder="请输入您的用户名"/>
+                    {{ errors.username }}
+					<div class="login-center-input-text">用户名</div>
+				</div>
+			</div>
+			<div class="login-center clearfix">
+				<div class="login-center-img"><img src="/static/img/password.png"/></div>
+				<div class="login-center-input">
+					<input type="password" name="password" placeholder="请输入您的密码"/>
+                    {{ errors.password }}
+					<div class="login-center-input-text">密码</div>
+				</div>
+			</div>
+            <p style="float: left;margin-left: 40px"><a href="{% url 'web:forget'  %}">忘记密码</a></p>
+            <p style="float: right;margin-right: 40px"><a href="{% url 'web:register'  %}">还没有账号?去注册</a></p>
+			<div class="login-button">
+                <input type="submit" value="登录" style="width: 100%;height: 100%;background-color: dodgerblue;border: none;color: white;border-radius: 5px;">
+			</div>
+		</div>
+    </form>
+</div>
+<!-- scripts -->
+<script src="/static/js/particles.min.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

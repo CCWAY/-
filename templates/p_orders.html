@@ -1,0 +1,64 @@
+{% extends 'base_main.html' %}
+
+{% block title %}
+    出行订单
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <style>
+        .col-sm-3,.col-sm-6{
+            text-align: center;
+            background: gray;
+            color: white;
+            padding: 30px;
+            margin-top: 10px;
+        }
+        .city{
+            font-size: 30px;
+            font-family: 楷体, sans-serif;
+        }
+        .time{
+            font-size: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+        {% for order in orders %}
+            {% if order.is_back == 1 %}
+                <a href="{% url 'web:order_info' order.id %}">
+                <div class="col-sm-10" style="margin-left: 8%">
+                    <div class="col-sm-3">
+                        <p class="city">{{ order.flight_line.start_city }}</p> {# 单行居中 #}
+                        <p class="time">{{ order.flight_line.leave_time|date:'H:i' }}</p> {# 单行居中 #}
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="time"><br></p>
+                        <p class="city">{{ order.flight_line.leave_date|date:'Y-m-d' }}</p> {# 单行居中 #}
+                    </div>
+                    <div class="col-sm-3">
+                        <p class="city">{{ order.flight_line.arrive_city }}</p> {# 单行居中 #}
+                        <p class="time">{{ order.flight_line.arrive_time|date:'H:i' }}</p> {# 单行居中 #}
+                    </div>
+                </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+
+    <!--如果没有查找到订单信息-->
+    <div class="alert" id="search_failure"
+         style="text-align: center;margin-top: 20px; background-color:white;display: {{ error }}">
+        <h1>尊敬的旅客</h1>
+        <p style="margin-left: 30px">
+            没有查询到你有可用的订单信息，请你先去订票！
+        </p>
+    </div>
+
+
+{% endblock %}

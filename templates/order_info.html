@@ -1,0 +1,75 @@
+{% extends 'base_main.html' %}
+
+{% block title %}
+    机票信息
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+        <style type="text/css">
+        .p_info{
+            width: 70%;
+            margin-left: 10%;
+            margin-top: 3%;
+        }
+        .p_info p{
+            margin-left: 40%;
+            font-family: 楷体, sans-serif;
+            font-size: 25px;
+        }
+        #back{
+				width: 120px;
+				height: 50px;
+				font-size: 20px;
+				font-family: '宋体', sans-serif;
+				float: left;
+                margin-left: 60%;
+			}
+			#close{
+				width: 120px;
+				height: 50px;
+				font-size: 20px;
+				font-family: '宋体', sans-serif;
+				background: gray;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				float: left;
+                margin-left: 10px;
+			}
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h2 style="text-align: center;margin-top: 20px;">机票信息</h2>
+		<div class="p_info">
+			<p>乘机人：{{ order.passenger.real_name }}</p>
+            <p>身份证号码：{{ order.passenger.card_id }}</p>
+            {% if order.passenger.sex == 1 %}
+                <p>性别：男</p>
+            {% else %}
+                <p>性别：女</p>
+            {% endif %}
+            <p>出发城市-到达城市：{{ order.flight_line.start_city }} - {{ order.flight_line.arrive_city }}</p>
+            <p>起飞机场-降落机场：{{ order.flight_line.start_airport }} - {{ order.flight_line.arrive_airport }}</p>
+            <p>出发时间：{{ order.flight_line.leave_date }}</p>
+            <p>起飞时间-降落时间：{{ order.flight_line.leave_time|date:'H:i' }} - {{ order.flight_line.arrive_time|date:'H:i' }}</p>
+            {% if order.cabin == 1 %}
+                <p>舱位类型：经济舱</p>
+            {% else %}
+                <p>舱位类型：商务舱</p>
+            {% endif %}
+
+            {% if order.cabin == 1 %}
+                <p>价格：{{ order.flight_line.tourist_price }}</p>
+            {% else %}
+                <p>价格：{{ order.flight_line.business_price }}</p>
+            {% endif %}
+		</div>
+    <br>
+    <a type="button" id="back" class="btn btn-danger" href="{% url 'web:back' order.id %}" onclick="alert('退票成功！')">退票</a>
+    <button type="button" id="close" class="btn btn-danger" onclick="window.history.go(-1)">返回</button>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+
+{% extends 'base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'web:index' %}" style="font-size: 30px;font-family: '楷体',sans-serif;">君临航空</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'web:index' %}"><span class="glyphicon glyphicon-home"></span> 主页</a></li>
+            {% if user is not None %}
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-shopping-cart"></span> 我的订单</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'web:p_order' %}"><span class="glyphicon glyphicon-log-in"></span> 即将出行</a></li>
+                        <li><a href="{% url 'web:f_order' %}"><span class="glyphicon glyphicon-user"></span> 历史订单</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'web:p_info' %}"><span class="glyphicon glyphicon-send"></span> 个人中心</a></li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'web:change' %}"><span class="glyphicon glyphicon-wrench"></span> 修改密码</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="{% url 'web:logout' %}"><span class="glyphicon glyphicon-log-out"></span> 退出</a></li>
+            {% else %}
+            <li><a href="{% url 'web:register' %}"><span class="glyphicon glyphicon-plus-sign"></span> 注册</a></li>
+            <li><a href="{% url 'web:login' %}"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+            {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+{% endblock %}
+

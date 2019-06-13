@@ -1,0 +1,112 @@
+{% extends 'base_main.html' %}
+
+{% block title %}
+    我的信息
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+        <style type="text/css">
+        .p_info{
+            width: 60%;
+            margin-left: 20%;
+            margin-top: 3%;
+        }
+        .p_info p{
+            margin-left: 40%;
+            font-family: 楷体, sans-serif;
+            font-size: 25px;
+        }
+        button{
+            margin-left: 60%;
+        }
+        .form-control{
+				font-size: 18px;
+				border-radius: 5px;
+                text-align: center;
+			}
+        .modal{
+				padding: 100px 100px 10px;
+			}
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h2 style="text-align: center;margin-top: 20px;">个人信息</h2>
+		<div class="p_info">
+			<h5 class="page-header"></h5>
+			<p>用户名：{{ info.username }}</p>
+			<h5 class="page-header"></h5>
+			<p>真实姓名：{{ info.real_name }}</p>
+			<h5 class="page-header"></h5>
+			<p>身份证号码：{{ info.card_id }}</p>
+			<h5 class="page-header"></h5>
+            {% if info.sex == 1 %}
+                <p>性别：男</p>
+            {% else %}
+                <p>性别：女</p>
+            {% endif %}
+
+			<h5 class="page-header"></h5>
+		</div>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">修改个人信息</button>
+
+
+    <!-- 模态框（Modal） -->
+    <form action="" method="post">
+    {% csrf_token %}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        修改信息
+                    </h4>
+                </div>
+                <div class="modal-body" style="width: 500px;height: 400px;">
+                        <div style="margin-left: 30%;margin-top: 30px">
+                            <div class="input-group">
+                                <span class="input-group-addon">用户名</span>
+                                <input type="text" name="username" class="form-control" value="{{ info.username }}">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">真实姓名</span>
+                                <input type="text" name="real_name" class="form-control" value="{{ info.real_name }}">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">身份证号</span>
+                                <input type="text" name="card_id" class="form-control" value="{{ info.card_id }}">
+                            </div>
+                            <br>
+                            {% if info.sex == 1 %}
+                                <p>
+                                    <input style="margin-left: 20%;" type="radio" name="sex" value="1" checked="checked"/>男
+                                    <input style="margin-left: 30%;" type="radio" name="sex" value="0" />女
+                                </p>
+                            {% else %}
+                                <p>
+                                    <input class="form-contro1" style="margin-left: 20%;" type="radio" name="sex" value="1"/>男
+                                    <input style="margin-left: 30%;" type="radio" name="sex" value="0" checked="checked"/>女
+                                </p>
+                            {% endif %}
+                        </div>
+                    <br>
+                    <br>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">取消更改
+                        </button>
+                            <input type="submit" href="{% url 'web:p_info' %}" class="btn btn-success" value="确认更改" onclick="alert('修改个人信息成功！')">
+                    </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    </div>
+    </form>
+{% endblock %}
